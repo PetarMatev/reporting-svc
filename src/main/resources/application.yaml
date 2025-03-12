@@ -1,0 +1,43 @@
+spring:
+#  security:
+#    user:
+#      name: Petar123
+#      password: 123123
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  thymeleaf:
+    check-template-location: true
+    cache: false
+    prefix: file:./src/main/resources/templates/
+  application:
+    name: reporting-svc
+  datasource:
+    url: jdbc:mysql://localhost:3306/reporting-svc?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: 1234
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  sql:
+    init:
+      mode: never
+  profiles:
+    active: dev
+server:
+  port: 8082
+logging:
+  level:
+    org.hibernate.orm.connections.pooling: OFF  # Disable Hibernate connection pool logs
+    com.zaxxer.hikari: OFF  # Disable HikariCP logs as well
+
+
+
+
+
