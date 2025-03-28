@@ -38,6 +38,11 @@ public class ReportingService {
         return reservationRepository.findAll();
     }
 
+    public ReservationResponse getReservationDetails(UUID reservationId) {
+        ReservationReporting reservationReporting = reservationRepository.findByReservationId(reservationId);
+
+        return DtoMapper.fromReservation(reservationReporting);
+    }
 
     public List<ReservationStatsResponse> getStats() {
 
@@ -64,11 +69,5 @@ public class ReportingService {
                         .totalGuestsVisited(String.valueOf(entry.getValue().getTotalGuestsVisited()))
                         .build())
                 .collect(Collectors.toList());
-    }
-
-    public ReservationResponse getReservationDetails(UUID reservationId) {
-        ReservationReporting reservationReporting = reservationRepository.findByReservationId(reservationId);
-
-        return DtoMapper.fromReservation(reservationReporting);
     }
 }
