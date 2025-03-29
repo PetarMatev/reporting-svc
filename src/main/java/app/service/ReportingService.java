@@ -39,8 +39,8 @@ public class ReportingService {
     }
 
     public ReservationResponse getReservationDetails(UUID reservationId) {
-        ReservationReporting reservationReporting = reservationRepository.findByReservationId(reservationId);
 
+        ReservationReporting reservationReporting = reservationRepository.findByReservationId(reservationId);
         return DtoMapper.fromReservation(reservationReporting);
     }
 
