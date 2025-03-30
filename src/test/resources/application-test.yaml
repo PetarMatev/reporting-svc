@@ -1,6 +1,6 @@
 spring:
   application:
-    name: reporting-svc
+    name: reporting-svc-test
   mvc:
     hiddenmethod:
       filter:

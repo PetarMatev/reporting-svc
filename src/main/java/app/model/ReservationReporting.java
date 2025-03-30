@@ -40,7 +40,7 @@ public class ReservationReporting {
     @Column(nullable = false)
     private BigDecimal totalPrice;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "\"user\"")
     private String user;
 
     @Column(nullable = false)
