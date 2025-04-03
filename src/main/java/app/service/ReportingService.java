@@ -1,5 +1,6 @@
 package app.service;
 
+import app.ReservationNotFoundException;
 import app.model.ReservationReporting;
 import app.repository.ReservationRepository;
 import app.web.dto.ReservationDetails;
@@ -39,9 +40,11 @@ public class ReportingService {
     }
 
     public ReservationResponse getReservationDetails(UUID reservationId) {
-
-        ReservationReporting reservationReporting = reservationRepository.findByReservationId(reservationId);
-        return DtoMapper.fromReservation(reservationReporting);
+        ReservationReporting reservation = reservationRepository.findByReservationId(reservationId);
+        if (reservation == null) {
+            throw new ReservationNotFoundException("Reservation not found with ID: " + reservationId);
+        }
+        return DtoMapper.fromReservation(reservation);
     }
 
     public List<ReservationStatsResponse> getStats() {
