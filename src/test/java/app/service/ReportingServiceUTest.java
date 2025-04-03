@@ -1,5 +1,6 @@
 package app.service;
 
+import app.ReservationNotFoundException;
 import app.model.ReservationReporting;
 import app.repository.ReservationRepository;
 import app.web.dto.ReservationDetails;
@@ -15,13 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -146,6 +144,26 @@ public class ReportingServiceUTest {
         assertEquals(expectedReservationResponse.getUser(), returnedReservationDetails.getUser());
         assertEquals(expectedReservationResponse.getApartment(), returnedReservationDetails.getApartment());
         verify(reservationRepository, times(1)).findByReservationId(reservationId);
+    }
+
+    @Test
+    void givenNonExistentReservationId_thenThrowReservationNotFoundException() {
+
+        // Given
+        UUID nonExistentReservationId = UUID.randomUUID();
+        when(reservationRepository.findByReservationId(nonExistentReservationId)).thenReturn(null);
+
+        // When/Then
+        ReservationNotFoundException exception = assertThrows(
+                ReservationNotFoundException.class,
+                () -> reportingService.getReservationDetails(nonExistentReservationId)
+        );
+
+        assertEquals(
+                "Reservation not found with ID: " + nonExistentReservationId,
+                exception.getMessage()
+        );
+        verify(reservationRepository, times(1)).findByReservationId(nonExistentReservationId);
     }
 
     // 4. getStats
